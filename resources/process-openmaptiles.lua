@@ -432,12 +432,21 @@ function way_function()
 		Layer("boundary",false)
 		AttributeNumeric("admin_level", admin_level)
 		MinZoom(mz)
+
 		-- disputed status (0 or 1). some styles need to have the 0 to show it.
 		local disputed = Find("disputed")
 		if disputed=="yes" then
 			AttributeNumeric("disputed", 1)
 		else
 			AttributeNumeric("disputed", 0)
+		end
+
+		-- maritime (0 or 1). Allows configuration of sea borders.
+		local maritime = Find("maritime")
+		if maritime=="yes" then
+			AttributeNumeric("maritime", 1)
+		else
+			AttributeNumeric("maritime", 0)
 		end
 	end
 
@@ -710,7 +719,7 @@ function way_function()
 
 	-- Parks
 	-- **** name?
-	if     boundary=="national_park" then Layer("park",true); Attribute("class",boundary); SetNameAttributes()
+	if     (boundary=="national_park" or boundary=="protected_area" or boundary=="nature_reserve") then Layer("park",true); Attribute("class",boundary); SetNameAttributes()
 	elseif leisure=="nature_reserve" then Layer("park",true); Attribute("class",leisure ); SetNameAttributes() end
 
 	-- POIs ('poi' and 'poi_detail')
